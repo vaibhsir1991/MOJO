@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css' />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src='js/moment.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js'></script>
+  <script type="text/javascript" src="js/angular.js"></script> 
+  <script type="text/javascript" src="controller/user.js"></script> 
+</head>
+<body>
+<div class="container" ng-app="userApp" ng-controller="userController" >
+  <br>
+  <ul class="nav nav-tabs">
+      <li id="home" class="active" ng-click="toggleNav('H')"><a href="">Home</a></li>
+      <li id="invlist"><a href="" ng-click="toggleNav('I')">Menu list</a></li>
+  </ul>
+
+  <div ng-hide="showList" ng-init="getList()"> 
+    <br>
+    <div id='calendar'></div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <legend>Select Starter and Main Course Option</legend>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+
+             <label>Starter</label>
+             <select ng-model="starter">
+                <option value="{{x}}" ng-repeat="x in images" ng-if="x.type=='S'">{{x.name}}</option>
+             </select>
+
+             <label>Main Course</label>
+             <select ng-model="mainCourse">
+                  <option value="{{x}}" ng-repeat="x in images" ng-if="x.type=='M'">{{x.name}}</option>
+             </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-default" ng-click="submit()">submit</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <script>
+  $(document).ready(function(){
+
+      $('#calendar').fullCalendar({
+        dayClick: function(date) {
+          $(".modal-title").html('DATE : ' + date.format('DD-MM-YYYY'));
+          $("#myModal").modal();
+        }
+
+      });
+
+  });
+  </script>
+
+
+<div ng-show="showList" class="container">
+  <style>
+  
+  .header {
+      text-align: center;
+      padding: 32px;
+  }
+
+  .row {
+      display: -ms-flexbox; /* IE10 */
+      display: inline-flex;
+      -ms-flex-wrap: wrap; /* IE10 */
+      flex-wrap: wrap;
+      padding: 0 4px;
+  }
+
+  /* Create four equal columns that sits next to each other */
+  .column {
+      -ms-flex: 25%; /* IE10 */
+      flex: 25%;
+      max-width: 80%;
+      padding: 0 4px;
+  }
+
+  .column img {
+      margin-top: 0px;
+      vertical-align: middle;
+  }
+
+  /* Responsive layout - makes a two column-layout instead of four columns */
+  @media screen and (max-width: 800px) {
+      .column {
+          -ms-flex: 50%;
+          flex: 50%;
+          max-width: 50%;
+      }
+  }
+
+  /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 600px) {
+      .column {
+          -ms-flex: 100%;
+          flex: 100%;
+          max-width: 100%;
+      }
+  }
+  </style>
+  <body>
+
+  <!-- Photo Grid -->
+  <br>
+  <legend>Starters Menu</legend>
+  <div class="row" ng-repeat="image in images |orderBy:'name':desc" ng-if="image.type=='S'"> 
+    <div class="column" >
+      <div class="w3-card-4 w3-section">
+          <div class="w3-container w3-teal">
+            <h4>{{image.name}}</h4>
+          </div>
+          <img src="{{image.doc_path}}" style="width:100%;">
+          <div class="w3-container w3-center">
+            <h4>Price : {{image.price}}/- Rs</h4>
+          </div>
+        </div>
+    </div>
+  </div><br><br>
+
+  <legend>Main Course Menu</legend>
+  <div class="row" ng-repeat="image in images |orderBy:'name':desc" ng-if="image.type=='M'">  
+    <div class="column">
+      <div class="w3-card-4 w3-section">
+          <div class="w3-container w3-teal">
+            <h4>{{image.name}}</h4>
+          </div>
+          <img src="{{image.doc_path}}" style="width:100%">
+          <div class="w3-container w3-center">
+            <h4>Price : {{image.price}}/- Rs</h4>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</body>
+</html>

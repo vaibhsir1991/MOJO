@@ -1,0 +1,129 @@
+<h2>Admin Menu</h2>
+<ul class="nav nav-tabs">
+  <li id="home" class="active" ng-click="toggleNav('H')"><a href="">Home</a></li>
+  <li id="invlist"><a href="" ng-click="toggleNav('I')">Inventory list</a></li>
+</ul>
+
+<legend></legend>
+<div ng-hide="admin">
+	<legend> Please login as ADMIN User</legend>
+	<a href="#">Go to Login</a>
+</div>
+
+<div ng-show="admin && !showList">
+	<div ng-hide="showDiv">
+		<label>How many files you want to upload ?</label>
+		<input style="width:10%" type="number" ng-model="arraySize">
+		<input class="btn btn-primary btn-padding " type="submit" ng-click="setSize()">
+	</div>
+
+
+	<form method="post" action="/api/upload" enctype="multipart/form-data"  ng-show="showDiv">
+				<H2 ><strong>Upload Inventory</strong></H2><br>
+				<div ng-repeat="rep in repeatDiv track by $index" >
+
+						<label>Name</label>
+						<input type="text" name="name" placeholder="Enter Name" required>
+						<label>Price</label>
+						<input type="number" name="price" required>
+						<label>Type</label>
+						<select required name="type">
+							<option selected disabled=""></option>
+							<option value="S">Starter</option>
+							<option value="M">Main Course</option>
+						</select>
+
+						<input type="file" name="images" style="display: inline;" required>
+
+						
+							
+				</div>
+
+				<br/>
+				<input class="btn btn-primary btn-padding pull-left" type="submit" value="Upload" ng-click="uploadFiles()">
+				<input class="btn btn-primary btn-padding pull-left" type="submit" value="Back" ng-click="showDiv ='false'">
+				<br><br><hr>		
+	</form>
+</div>
+
+<div ng-show="admin && showList" class="container">
+	<style>
+	
+	.header {
+	    text-align: center;
+	    padding: 32px;
+	}
+
+	.row {
+	    display: -ms-flexbox; /* IE10 */
+	    display: inline-flex;
+	    -ms-flex-wrap: wrap; /* IE10 */
+	    flex-wrap: wrap;
+	    padding: 0 4px;
+	}
+
+	/* Create four equal columns that sits next to each other */
+	.column {
+	    -ms-flex: 25%; /* IE10 */
+	    flex: 25%;
+	    max-width: 80%;
+	    padding: 0 4px;
+	}
+
+	.column img {
+	    margin-top: 0px;
+	    vertical-align: middle;
+	}
+
+	/* Responsive layout - makes a two column-layout instead of four columns */
+	@media screen and (max-width: 800px) {
+	    .column {
+	        -ms-flex: 50%;
+	        flex: 50%;
+	        max-width: 50%;
+	    }
+	}
+
+	/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+	@media screen and (max-width: 600px) {
+	    .column {
+	        -ms-flex: 100%;
+	        flex: 100%;
+	        max-width: 100%;
+	    }
+	}
+	</style>
+	<body>
+
+	<!-- Photo Grid -->
+
+	<legend>Starters Menu</legend>
+	<div class="row" ng-repeat="image in images |orderBy:'name':desc" ng-if="image.type=='S'"> 
+	  <div class="column" >
+	    <div class="w3-card-4 w3-section">
+	        <div class="w3-container w3-teal">
+	          <h4>{{image.name}}</h4>
+	        </div>
+	        <img src="{{image.doc_path}}" style="width:100%;">
+	        <div class="w3-container w3-center">
+	          <h4>Price : {{image.price}}/- Rs</h4>
+	        </div>
+	      </div>
+	  </div>
+	</div><br><br>
+
+	<legend>Main Course Menu</legend>
+	<div class="row" ng-repeat="image in images |orderBy:'name':desc" ng-if="image.type=='M'">  
+	  <div class="column">
+	    <div class="w3-card-4 w3-section">
+	        <div class="w3-container w3-teal">
+	          <h4>{{image.name}}</h4>
+	        </div>
+	        <img src="{{image.doc_path}}" style="width:100%">
+	        <div class="w3-container w3-center">
+	          <h4>Price : {{image.price}}/- Rs</h4>
+	        </div>
+	      </div>
+	  </div>
+	</div>
+</div>
