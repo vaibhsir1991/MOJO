@@ -42,7 +42,7 @@ app.controller('loginController' , function($scope,$rootScope,$filter,$http,$loc
 	$scope.login=function(){
 
 		if($scope.validateCredentials()){
-			if($scope.username=="admin" && $scope.password=="admin"){
+			if($scope.username=="Admin" && $scope.password=="Admin"){
 				$rootScope.admin=true;
 				window.location = '#admin';
 			}else

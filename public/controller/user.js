@@ -8,8 +8,45 @@ var userApp = angular.module("userApp",[])
 
 userApp.controller('userController',function($scope,$rootScope,$filter,$http,$location,$window){
 
+	$scope.showList = false;
+	$scope.saveData={starter:'',mainCourse:'',date:'',starter_price:'',mainCourse_price:''};	
+	$scope.selectedDate="";
+
+	$scope.totalPrice=0;
+
+	/*$scope.showPrice =function(){
+		if($scope.starter && $scope.mainCourse)
+			var starter = JSON.parse($scope.starter);
+			var mainCourse = JSON.parse($scope.mainCourse)
+
+			$scope.totalPrice = parseInt(mainCourse.price) + parseInt(starter.price);
+		}
+	}	
+*/
 	$scope.submit = function(){
-		console.log("THIS IS TEST : " + $scope.starter + $scope.mainCourse);
+		var starter = JSON.parse($scope.starter);
+		var mainCourse = JSON.parse($scope.mainCourse)
+
+		$scope.saveData.starter=starter.name;
+		$scope.saveData.mainCourse=mainCourse.name;
+		$scope.saveData.mainCourse_price=mainCourse.price;
+		$scope.saveData.starter_price=starter.price;
+		var dateStr = $(".modal-title").html()
+		$scope.saveData.date=dateStr.substr(7,10);
+		
+		$http.post('/api/saveData',$scope.saveData).success(function(data){
+			if(data.state == "success"){
+				$scope.saveData = {};
+				$window.alert(data.message);
+			}else {
+				$window.alert(data.message);
+			};
+		})
+		.error(function(err){
+			alert(err);
+		});
+
+
 	}; 
 
 	$scope.getList =  function(){

@@ -17,6 +17,7 @@
 <body>
 <div class="container" ng-app="userApp" ng-controller="userController" >
   <br>
+  <legend>Welcome To Sharif Caterers</legend>
   <ul class="nav nav-tabs">
       <li id="home" class="active" ng-click="toggleNav('H')"><a href="">Home</a></li>
       <li id="invlist"><a href="" ng-click="toggleNav('I')">Menu list</a></li>
@@ -33,25 +34,25 @@
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <legend>Select Starter and Main Course Option</legend>
-            <h4 class="modal-title"></h4>
+            <h3>Select Starter and Main Course (<small class="modal-title"></small>)</h3>
+            
           </div>
           <div class="modal-body">
 
              <label>Starter</label>
-             <select ng-model="starter">
-                <option value="{{x}}" ng-repeat="x in images" ng-if="x.type=='S'">{{x.name}}</option>
-             </select>
+             <select class="form-control" ng-model="starter">
+                <option value="{{x}}" ng-repeat="x in images" ng-if="x.type=='S'">{{x.name}} : {{x.price}}/-</option>
+             </select> 
 
              <label>Main Course</label>
-             <select ng-model="mainCourse">
-                  <option value="{{x}}" ng-repeat="x in images" ng-if="x.type=='M'">{{x.name}}</option>
+             <select class="form-control" ng-model="mainCourse">
+                  <option value="{{x}}" ng-repeat="x in images" ng-if="x.type=='M'">{{x.name}} : {{x.price}}/-</option>
              </select>
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-default" ng-click="submit()">submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="submit()">submit</button>
           </div>
         </div>
         
@@ -65,12 +66,11 @@
 
       $('#calendar').fullCalendar({
         dayClick: function(date) {
-          $(".modal-title").html('DATE : ' + date.format('DD-MM-YYYY'));
+          $(".modal-title").html('DATE : ' + date.format('DD/MM/YYYY'));
           $("#myModal").modal();
         }
 
       });
-
   });
   </script>
 
